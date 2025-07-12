@@ -8,14 +8,14 @@
 import UIKit
 
 class PokemonDetailViewController: UIViewController {
-	let pokemonDetail = PokemonDetailView()
-	
+	let pokemonDetailView = PokemonDetailView()
+	let pokemonURL: URL?
+
 	private let viewModel = PokemonDetailViewModel()
 	
 	init(url: URL?) {
 		self.viewModel = PokemonDetailViewModel(url: url)
 		super.init(nibName: nil, bundle: nil)
-		pokemonDetailView.delegate = self
 		viewModel.delegate = self
 	}
 	
@@ -24,18 +24,19 @@ class PokemonDetailViewController: UIViewController {
 	}
 	
 	override func loadView() {
-		view = pokemonDetail
+		view = pokemonDetailView
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		viewModel = fetchPokemonDetail()
+		viewModel.fetchPokemonDetail(url: pokemonURL)
 	}
 }
 
 extension PokemonDetailViewController: PokemonDetailViewModelDelegate {
 	func didLoadPokemonDetail(_ detail: PokemonDetail, isFavorited: Bool) {
 		DispatchQueue.main.async {
-			self.pokemonDetail.configure(with: detail, isFavorite: isFavorited)
+			self.pokemonDetailView.configure(with: detail)
+			//self.pokemonDetailView.configure(with: detail, isFavorite: isFavorited)
 		}
 	}
 	
@@ -46,8 +47,8 @@ extension PokemonDetailViewController: PokemonDetailViewModelDelegate {
 	}
 }
 
-extension PokemonDetailViewController: PokemonDetailViewDelegate {
-	func didTapFavorite() {
-		viewModel.toggleFavorite()
-	}
-}
+//extension PokemonDetailViewController: PokemonDetailViewDelegate {
+//	func didTapFavorite() {
+//		viewModel.toggleFavorite()
+//	}
+//}

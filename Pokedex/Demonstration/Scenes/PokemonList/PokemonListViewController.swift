@@ -39,7 +39,7 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
 	
 	func didFailWithError(_ message: String) {
 		DispatchQueue.main.async {
-			//self.showAlert(message: error.localizedDescription)
+			self.showAlert(message: message)
 		}
 	}
 }
@@ -67,7 +67,7 @@ extension PokemonListViewController: UITableViewDataSource {
 extension PokemonListViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let pokemon = viewModel.pokemon(at: indexPath.row)
-		let detailVC = PokemonDetailViewController(url: pokemon.pokemonUrl)
+		let detailVC = PokemonDetailViewController(url: pokemon.pokemonURL)
 		navigationController?.pushViewController(detailVC, animated: true)
 	}
 }
